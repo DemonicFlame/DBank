@@ -1,18 +1,27 @@
 import Debug "mo:base/Debug";
 
 actor DBank {
-  var currentVlaue = 300;
+  stable var currentValue : Nat = 300;
   let id = 2534586153;
 
   //Debug.print(debug_show(id));
 
   public func topUp(amount : Nat) {
-    currentVlaue += amount;
-    Debug.print(debug_show (currentVlaue));
+    currentValue += amount;
+    Debug.print(debug_show (currentValue));
   };
 
   public func withdraw(amount : Nat) {
-    currentVlaue -= amount;
-    Debug.print(debug_show (currentVlaue));
+    let tempValue : Int = currentValue - amount;
+    if (tempValue >= 0) {
+      currentValue -= amount;
+      Debug.print(debug_show (currentValue));
+    } else {
+      Debug.print("Amount exceeds current value");
+    };
+  };
+
+  public query func checkBalance() : async Nat {
+    return currentValue;
   };
 };
